@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+    <script>
+        function CstCntrl($scope){
+        	$scope.coste = 0;
+            $scope.add_tax = true;
+            $scope.total_final = 0.0;
+            
+            
+        	var update = function(){
+        	 	    $scope.tax = $scope.add_tax ? $scope.coste * 0.21 : 0.0;	
+        		    $scope.total = parseFloat($scope.coste) + $scope.tax + $scope.shipping.cantidad;
+        	}
+
+        	$scope.$watch("coste+tax", update);
+            $scope.$watch("shipping", update);
+            $scope.$watch("add_tax+coste", update);
+            $scope.$watch("total_bill", function(){
+                $scope.total_display = $scope.total_bill ? "block" : "none";
+            });
+
+            $scope.add = function(){
+                $scope.total_final += $scope.total;
+            }
+
+            $scope.shipping_options = [
+                {cantidad:15.00, nombre:"MRW"},
+                {cantidad:20.00, nombre:"SEUR"},
+                {cantidad:25.00, nombre:"CORREOS"}
+            ];
+
+            $scope.shipping = $scope.shipping_options[0];
+            
+            
+
+        }
+    </script>
+</head>
+<body >
+    <div ng-controller="CstCntrl">
+        <input type="checkbox" ng-model="add_tax">Anadir tax
+        <input type="checkbox" ng-model="total_bill"> Mostrar Total </br>
+  	    Coste: <input type="text" placeholder="Coste" ng-model="coste"> </br>
+        Envio:
+        <label ng-repeat="s in shipping_options">
+            <input type="radio" ng-model="$parent.shipping" ng-value="s">{{s.nombre}} = {{s.cantidad}}    
+        </label> 
+        <!--<select ng-model="transportista" ng-options="t.nombre for t in transportistas"></select>--> 
+        
+  	    <p>	
+		        El coste es: {{coste|currency}}
+  	    </p>
+		
+  	    <p>
+  		    Los impuestos son: {{tax|currency}}
+	      </p>	
+      
+	      <p style="display: {{total_display}}">
+		        El Subtotal es: {{total|currency}}
+                <button ng-click="add()">Add</button>		
+	      </p>
+
+          <p style="display: {{total_display}}">
+                <strong>El Total a pagar es: </strong>{{total_final|currency}}       
+          </p>
+    </div>
+</body>
+</html>		

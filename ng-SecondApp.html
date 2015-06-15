@@ -1,0 +1,41 @@
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+    <script>
+        function CstCntrl($scope){
+        	  $scope.coste = 0;
+            $scope.add_tax = true;
+        	  var update = function(){
+        	 	    $scope.tax = $scope.add_tax ? $scope.coste * 0.21 : 0.0;	
+        		    $scope.total = parseFloat($scope.coste) + $scope.tax;
+        	  }
+        	  $scope.$watch("coste+tax", update);
+            $scope.$watch("add_tax", update);
+
+            $scope.$watch("total_bill", function(){
+                $scope.total_display = $scope.total_bill ? "block" : "none";
+            });
+            
+
+        }
+    </script>
+</head>
+<body ng-app>
+    <div ng-controller="CstCntrl">
+        <input type="checkbox" ng-model="add_tax">Anadir tax
+        <input type="checkbox" ng-model="total_bill"> Mostrar Total </br>
+  	    Coste: <input type="text" placeholder="Coste" ng-model="coste"> 
+  	    <p>	
+		        El cost es: {{coste|currency}}
+  	    </p>
+		
+  	    <p>
+  		    Los impuestos son: {{tax|currency}}
+	      </p>	
+      
+	      <p style="display: {{total_display}}">
+		        El total es: {{total|currency}}		
+	      </p>
+    </div>
+</body>
+</html>		
