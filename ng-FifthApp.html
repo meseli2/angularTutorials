@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="myApp">
 <head>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-animate.js"></script>
+
     <script>
+        var myApp = angular.module("myApp",['ngAnimate']);
         function ContactsCtrl($scope){
             $scope.people = [
                 {name:'Marcos', phones:['123-1234', '123-9876']},
@@ -28,11 +31,37 @@
     .grey{
         background-color: #eee;
     }
+
+    /*ngAnimate*/
+    /* The starting CSS styles for the enter animation */
+    .person.ng-enter {
+      transition:0.5s linear all;
+      opacity:0;
+    }
+
+    /* The finishing CSS styles for the enter animation */
+    .person.ng-enter.ng-enter-active {
+      opacity:1;
+    }
+
+    .person.ng-leave {
+      transition:0.5s linear all;
+      opacity:1;
+    }
+    .person.ng-leave.ng-leave-active {
+      opacity:0;
+    }
+
+    .person.ng-hide {
+      transition:0.5s linear all;
+      opacity:0;
+    }
+
     </style>
 </head>
 <body ng-controller="ContactsCtrl">
     <button ng-click="add()">Add</button>
-    <div ng-repeat="person in people" ng-controller="PersonCtrl" ng-class-odd="'grey'" style="font-weight:{{$index%2==0?'bold':''}};">
+    <div ng-repeat="person in people" ng-controller="PersonCtrl" ng-class-odd="'grey'" style="font-weight:{{$index%2==0?'bold':''}};" class="person">
         {{person.name}}
         (
         <a href="#" ng-click="show()" ng-show="!person.show_phones">Show</a>
