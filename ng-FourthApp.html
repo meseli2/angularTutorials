@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+    <script>
+        function ContactsCtrl($scope){
+            $scope.people = [
+                {name:'Marcos', phones:['123-1234', '123-9876']},
+                {name:'Pepe', phones:['123-2345', '123-8765']},
+                {name:'Juan', phones:['123-3456']}
+            ]
+        }      
+    </script>
+</head>
+<body ng-controller="ContactsCtrl">
+    <div ng-repeat="person in people">
+        {{person.name}}</br>
+        (
+        <a href="#" ng-click="person.show_phones=true" ng-show="!person.show_phones">Show</a>
+        <a href="#" ng-click="person.show_phones=false" ng-show="person.show_phones">Hide</a>
+        )
+        <div style="margin-left:50px" ng-repeat="phone in person.phones" ng-show="person.show_phones">
+            {{phone}}<span ng-if="$index>0">,</span>
+        </div>
+    </div>
+</body>
+</html>		

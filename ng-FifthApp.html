@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
+    <script>
+        function ContactsCtrl($scope){
+            $scope.people = [
+                {name:'Marcos', phones:['123-1234', '123-9876']},
+                {name:'Pepe', phones:['123-2345', '123-8765']},
+                {name:'Juan', phones:['123-3456']}
+            ]
+            $scope.add = function(){
+                $scope.people.push(
+                    {name:'Maria', phones:['436-9999']}
+                    );
+            }
+        }
+        function PersonCtrl($scope){
+            $scope.show = function(){
+                $scope.person.show_phones=true;
+            }
+            $scope.hide = function(){
+                $scope.person.show_phones=false;
+            }
+        }     
+    </script>
+    <style>
+    .grey{
+        background-color: #eee;
+    }
+    </style>
+</head>
+<body ng-controller="ContactsCtrl">
+    <button ng-click="add()">Add</button>
+    <div ng-repeat="person in people" ng-controller="PersonCtrl" ng-class-odd="'grey'" style="font-weight:{{$index%2==0?'bold':''}};">
+        {{person.name}}
+        (
+        <a href="#" ng-click="show()" ng-show="!person.show_phones">Show</a>
+        <a href="#" ng-click="hide()" ng-show="person.show_phones">Hide</a>
+        )
+        <div style="margin-left:50px" ng-repeat="phone in person.phones" ng-show="person.show_phones">
+            {{phone}}<span ng-if="$index>0">,</span>
+        </div>
+    </div>
+</body>
+</html>		
